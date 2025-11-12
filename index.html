@@ -15,6 +15,7 @@
             font-family: 'Georgia', serif;
             overflow: hidden;
             background: #1a1410;
+            color: #fff;
         }
 
         #story-container {
@@ -29,712 +30,664 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            transition: opacity 2s ease-in-out;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: opacity 1.5s ease-in-out;
+            display: none;
         }
 
         .scene.active {
             opacity: 1;
+            display: block;
         }
 
-        /* Opening Scene - POV at café table */
-        #opening-scene {
-            background: linear-gradient(135deg, #3e2723 0%, #5d4037 50%, #4e342e 100%);
-        }
-
-        .cafe-table {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Warm ambient light */
-        .ambient-glow {
+        /* Choice buttons */
+        .choices {
             position: absolute;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 183, 77, 0.3) 0%, transparent 70%);
-            top: -100px;
+            bottom: 80px;
             left: 50%;
             transform: translateX(-50%);
-            animation: glow 4s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 0.9; }
-        }
-
-        /* Steam animation */
-        @keyframes steam {
-            0% {
-                transform: translateY(0) translateX(0) scaleX(1);
-                opacity: 0.6;
-            }
-            50% {
-                transform: translateY(-30px) translateX(5px) scaleX(1.2);
-                opacity: 0.3;
-            }
-            100% {
-                transform: translateY(-60px) translateX(-5px) scaleX(0.8);
-                opacity: 0;
-            }
-        }
-
-        /* Sparkle animation for magical moments */
-        @keyframes sparkle {
-            0%, 100% {
-                opacity: 0;
-                transform: scale(0);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        /* Choice buttons - visual only */
-        .choice-container {
-            position: absolute;
-            bottom: 20%;
-            width: 100%;
             display: flex;
-            justify-content: center;
-            gap: 60px;
+            flex-direction: column;
+            gap: 20px;
+            width: 80%;
+            max-width: 600px;
             opacity: 0;
-            animation: fadeIn 2s ease-in 3s forwards;
+            animation: fadeInChoices 1s ease-in 2s forwards;
+        }
+
+        @keyframes fadeInChoices {
+            to { opacity: 1; }
+        }
+
+        .choice-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 20px 30px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            color: #fff;
+            font-size: 18px;
+            text-align: center;
+            font-family: 'Georgia', serif;
+        }
+
+        .choice-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 183, 77, 0.8);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 183, 77, 0.3);
+        }
+
+        /* Text overlays for context */
+        .context-text {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            max-width: 800px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in forwards;
+        }
+
+        .context-text h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+
+        .context-text p {
+            font-size: 20px;
+            line-height: 1.6;
+            color: #ffe0b2;
         }
 
         @keyframes fadeIn {
             to { opacity: 1; }
         }
 
-        .choice {
-            cursor: pointer;
-            transition: transform 0.3s ease, filter 0.3s ease;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        @keyframes steam {
+            0% {
+                transform: translateY(0) translateX(0) scaleX(1);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-80px) translateX(10px) scaleX(0.8);
+                opacity: 0;
+            }
         }
 
-        .choice:hover {
-            transform: scale(1.1);
-            filter: drop-shadow(0 8px 16px rgba(255, 183, 77, 0.5));
+        @keyframes glow {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
         }
 
-        /* Endings */
-        #ending-a {
-            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 50%, #ffcc80 100%);
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
         }
 
-        #ending-b {
-            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 50%, #a5d6a7 100%);
+        /* Background styles for different moods */
+        .warm-cafe {
+            background: linear-gradient(135deg, #3e2723 0%, #5d4037 50%, #4e342e 100%);
         }
 
-        #ending-c {
+        .golden-memory {
+            background: linear-gradient(135deg, #fff9c4 0%, #ffe082 50%, #ffb74d 100%);
+        }
+
+        .peaceful-release {
             background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%);
         }
 
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                transform: scale(0.95);
-            }
+        .fresh-green {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 50%, #a5d6a7 100%);
         }
 
-        @keyframes appear {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Memory wisps for Ending A */
-        @keyframes memoryFloat {
-            0% {
-                transform: translateY(100px) translateX(0) rotate(0deg);
-                opacity: 0;
-            }
-            20% {
-                opacity: 0.8;
-            }
-            80% {
-                opacity: 0.8;
-            }
-            100% {
-                transform: translateY(-100px) translateX(30px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Writing animation for Ending B */
-        @keyframes write {
-            from {
-                stroke-dashoffset: 1000;
-            }
-            to {
-                stroke-dashoffset: 0;
-            }
-        }
-
-        /* Fade away for Ending C */
-        @keyframes cafeDissolve {
-            0% {
-                opacity: 1;
-                filter: blur(0px);
-            }
-            100% {
-                opacity: 0;
-                filter: blur(20px);
-            }
-        }
-
-        @keyframes skyExpand {
-            from {
-                transform: scale(1);
-                opacity: 0.5;
-            }
-            to {
-                transform: scale(1.5);
-                opacity: 1;
-            }
+        .mysterious-dim {
+            background: linear-gradient(135deg, #263238 0%, #37474f 50%, #455a64 100%);
         }
     </style>
 </head>
 <body>
     <div id="story-container">
-        <!-- Opening Scene: POV at café table -->
-        <div id="opening-scene" class="scene active">
-            <div class="ambient-glow"></div>
-            <svg class="cafe-table" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
-                <!-- Café background - warm walls -->
+        <!-- OPENING SCENE -->
+        <div id="scene-opening" class="scene active warm-cafe">
+            <svg width="100%" height="100%" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+                <!-- Ambient glow -->
+                <circle cx="600" cy="200" r="300" fill="rgba(255, 183, 77, 0.2)" opacity="0.6">
+                    <animate attributeName="opacity" values="0.4;0.7;0.4" dur="4s" repeatCount="indefinite"/>
+                </circle>
+
+                <!-- Café wall -->
                 <rect x="0" y="0" width="1200" height="400" fill="#4a3428"/>
 
-                <!-- Window with soft light -->
-                <rect x="100" y="50" width="300" height="250" rx="10" fill="#87ceeb" opacity="0.4"/>
-                <rect x="110" y="60" width="280" height="230" rx="8" fill="#ffe5b4" opacity="0.6"/>
+                <!-- Window -->
+                <rect x="150" y="80" width="250" height="200" rx="10" fill="#87ceeb" opacity="0.3"/>
 
-                <!-- Shelves with coffee items -->
-                <rect x="800" y="100" width="250" height="15" fill="#3e2723"/>
-                <rect x="800" y="200" width="250" height="15" fill="#3e2723"/>
+                <!-- Chalkboard -->
+                <rect x="500" y="100" width="250" height="150" rx="10" fill="#2d2d2d"/>
+                <text x="625" y="150" font-size="20" fill="#ffd700" text-anchor="middle" font-family="cursive">
+                    Welcome Back
+                </text>
+                <text x="625" y="200" font-size="26" fill="#ffb74d" text-anchor="middle" font-family="cursive" font-weight="bold">
+                    The Drink You Need
+                </text>
 
-                <!-- Coffee bags on shelf -->
-                <rect x="820" y="60" width="50" height="70" rx="5" fill="#6d4c41"/>
-                <rect x="890" y="60" width="50" height="70" rx="5" fill="#8d6e63"/>
-                <rect x="960" y="60" width="50" height="70" rx="5" fill="#5d4037"/>
+                <!-- Table -->
+                <ellipse cx="600" cy="750" rx="500" ry="80" fill="#5d4037"/>
 
-                <!-- Coffee cups on lower shelf -->
-                <circle cx="850" cy="190" r="15" fill="#d7ccc8"/>
-                <circle cx="900" cy="190" r="15" fill="#bcaaa4"/>
-                <circle cx="950" cy="190" r="15" fill="#a1887f"/>
+                <!-- Coffee cup with steam -->
+                <g transform="translate(600, 520)">
+                    <ellipse cx="0" cy="0" rx="60" ry="20" fill="#3e2723"/>
+                    <path d="M -60 0 Q -60 60 0 65 Q 60 60 60 0" fill="#4e342e"/>
+                    <ellipse cx="0" cy="0" rx="55" ry="18" fill="#6f4e37"/>
+                    <ellipse cx="0" cy="3" rx="50" ry="15" fill="#3e2016"/>
 
-                <!-- Chalkboard with magical rewriting -->
-                <rect x="450" y="80" width="300" height="180" rx="10" fill="#2d2d2d"/>
-                <g id="chalkboard-text" opacity="0">
-                    <text x="600" y="140" font-size="24" fill="#ffd700" text-anchor="middle" font-family="cursive">
-                        Welcome Back
-                    </text>
-                    <path d="M 480 160 Q 600 155 720 160" stroke="#ffd700" stroke-width="2" fill="none"/>
-                    <text x="600" y="200" font-size="32" fill="#ffb74d" text-anchor="middle" font-family="cursive" font-weight="bold">
-                        The Drink You Need
-                    </text>
-                    <!-- Magical sparkles around text -->
-                    <circle cx="470" cy="130" r="3" fill="#ffd700" opacity="0">
-                        <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="1s" repeatCount="indefinite"/>
-                    </circle>
-                    <circle cx="730" cy="140" r="4" fill="#ffb74d" opacity="0">
-                        <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="1.3s" repeatCount="indefinite"/>
-                    </circle>
-                    <circle cx="490" cy="210" r="3" fill="#ffd700" opacity="0">
-                        <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="1.6s" repeatCount="indefinite"/>
-                    </circle>
+                    <!-- Steam -->
+                    <path d="M -15 -5 Q -20 -30 -15 -60" stroke="#fff" stroke-width="3" fill="none" opacity="0.4">
+                        <animate attributeName="d" values="M -15 -5 Q -20 -30 -15 -60; M -15 -5 Q -10 -30 -20 -60; M -15 -5 Q -20 -30 -15 -60" dur="3s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.4;0.2;0" dur="3s" repeatCount="indefinite"/>
+                    </path>
+                    <path d="M 0 -5 Q 5 -35 0 -65" stroke="#fff" stroke-width="3" fill="none" opacity="0.5">
+                        <animate attributeName="d" values="M 0 -5 Q 5 -35 0 -65; M 0 -5 Q -5 -35 5 -65; M 0 -5 Q 5 -35 0 -65" dur="2.5s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.5;0.3;0" dur="2.5s" repeatCount="indefinite"/>
+                    </path>
+                    <path d="M 15 -5 Q 10 -30 15 -60" stroke="#fff" stroke-width="3" fill="none" opacity="0.4">
+                        <animate attributeName="d" values="M 15 -5 Q 10 -30 15 -60; M 15 -5 Q 20 -30 10 -60; M 15 -5 Q 10 -30 15 -60" dur="3.2s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.4;0.2;0" dur="3.2s" repeatCount="indefinite"/>
+                    </path>
                 </g>
 
-                <!-- Table edge (bottom of view) -->
-                <ellipse cx="600" cy="800" rx="600" ry="100" fill="#4e342e"/>
-                <ellipse cx="600" cy="800" rx="580" ry="90" fill="#5d4037"/>
-
-                <!-- Coffee cup in front of us -->
-                <g id="coffee-cup">
-                    <ellipse cx="600" cy="520" rx="80" ry="25" fill="#3e2723"/>
-                    <path d="M 520 520 Q 520 600 600 610 Q 680 600 680 520" fill="#4e342e"/>
-                    <ellipse cx="600" cy="520" rx="75" ry="23" fill="#6f4e37"/>
-
-                    <!-- Coffee inside -->
-                    <ellipse cx="600" cy="525" rx="70" ry="20" fill="#3e2016"/>
-                    <ellipse cx="600" cy="525" rx="60" ry="16" fill="#4a2511" opacity="0.8"/>
-
-                    <!-- Steam rising -->
-                    <g class="steam">
-                        <path d="M 580 510 Q 575 480 580 450" stroke="#ffffff" stroke-width="3" fill="none" opacity="0.4">
-                            <animate attributeName="d"
-                                values="M 580 510 Q 575 480 580 450;
-                                        M 580 510 Q 585 480 575 450;
-                                        M 580 510 Q 575 480 580 450"
-                                dur="3s" repeatCount="indefinite"/>
-                            <animate attributeName="opacity" values="0.4;0.2;0" dur="3s" repeatCount="indefinite"/>
-                        </path>
-                        <path d="M 600 510 Q 605 485 600 455" stroke="#ffffff" stroke-width="3" fill="none" opacity="0.5">
-                            <animate attributeName="d"
-                                values="M 600 510 Q 605 485 600 455;
-                                        M 600 510 Q 595 485 605 455;
-                                        M 600 510 Q 605 485 600 455"
-                                dur="2.5s" repeatCount="indefinite"/>
-                            <animate attributeName="opacity" values="0.5;0.3;0" dur="2.5s" repeatCount="indefinite"/>
-                        </path>
-                        <path d="M 620 510 Q 615 480 620 450" stroke="#ffffff" stroke-width="3" fill="none" opacity="0.4">
-                            <animate attributeName="d"
-                                values="M 620 510 Q 615 480 620 450;
-                                        M 620 510 Q 625 480 615 450;
-                                        M 620 510 Q 615 480 620 450"
-                                dur="3.2s" repeatCount="indefinite"/>
-                            <animate attributeName="opacity" values="0.4;0.2;0" dur="3.2s" repeatCount="indefinite"/>
-                        </path>
-                    </g>
-
-                    <!-- Saucer -->
-                    <ellipse cx="600" cy="615" rx="100" ry="15" fill="#5d4037"/>
-                </g>
-
-                <!-- Napkin on table -->
-                <rect x="750" y="580" width="120" height="120" fill="#f5f5f5" opacity="0.9" transform="rotate(-15 810 640)"/>
-                <path d="M 760 600 L 850 610" stroke="#e0e0e0" stroke-width="2" opacity="0.5"/>
-                <path d="M 755 630 L 845 640" stroke="#e0e0e0" stroke-width="2" opacity="0.5"/>
-
-                <!-- Small plant on table (cozy touch) -->
-                <g transform="translate(350, 550)">
-                    <ellipse cx="0" cy="30" rx="35" ry="12" fill="#5d4037"/>
-                    <path d="M -30 30 Q -30 10 -25 -5 Q -20 -15 -10 -10 Q 0 -5 0 10 Z" fill="#2e7d32"/>
-                    <path d="M -10 25 Q -5 5 0 -10 Q 5 -20 15 -15 Q 20 -10 15 5 Z" fill="#388e3c"/>
-                    <path d="M 10 28 Q 15 10 20 -5 Q 25 -12 30 -5 Q 32 0 28 15 Z" fill="#43a047"/>
-                </g>
+                <!-- Barista silhouette in background -->
+                <ellipse cx="750" cy="250" rx="40" ry="45" fill="#2d2d2d" opacity="0.6"/>
+                <rect x="720" y="290" width="60" height="80" rx="10" fill="#2d2d2d" opacity="0.6"/>
             </svg>
 
-            <!-- Choice indicators (visual objects on table) -->
-            <div class="choice-container">
-                <!-- Choice 1: Question mark card (ask how they know) -->
-                <svg class="choice" id="choice-question" width="100" height="140" viewBox="0 0 100 140" onclick="chooseEnding('a')">
-                    <rect x="5" y="5" width="90" height="130" rx="8" fill="#fff9c4" stroke="#ffd54f" stroke-width="2"/>
-                    <text x="50" y="75" font-size="60" fill="#f57c00" text-anchor="middle" dominant-baseline="middle">?</text>
-                    <circle cx="50" cy="30" r="4" fill="#ffd700" opacity="0.7">
-                        <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/>
-                    </circle>
-                </svg>
-
-                <!-- Choice 2: Empty cup (order "the usual") -->
-                <svg class="choice" id="choice-usual" width="100" height="140" viewBox="0 0 100 140" onclick="chooseEnding('b')">
-                    <ellipse cx="50" cy="120" rx="45" ry="8" fill="#5d4037" opacity="0.3"/>
-                    <ellipse cx="50" cy="60" rx="35" ry="12" fill="#3e2723"/>
-                    <path d="M 15 60 Q 15 110 50 115 Q 85 110 85 60" fill="#4e342e"/>
-                    <ellipse cx="50" cy="60" rx="32" ry="10" fill="#6f4e37"/>
-                    <ellipse cx="50" cy="63" rx="28" ry="8" fill="#f5f5f5" opacity="0.2"/>
-                    <path d="M 85 75 L 100 75 Q 105 75 105 85 Q 105 95 100 95 L 85 95" stroke="#4e342e" stroke-width="3" fill="none"/>
-                </svg>
-
-                <!-- Choice 3: Tilted cup (dump it out) -->
-                <svg class="choice" id="choice-dump" width="140" height="100" viewBox="0 0 140 100" onclick="chooseEnding('c')">
-                    <g transform="rotate(-45 70 50)">
-                        <ellipse cx="70" cy="40" rx="35" ry="12" fill="#3e2723"/>
-                        <path d="M 35 40 Q 35 90 70 95 Q 105 90 105 40" fill="#4e342e"/>
-                        <ellipse cx="70" cy="40" rx="32" ry="10" fill="#6f4e37"/>
-                    </g>
-                    <!-- Coffee spilling -->
-                    <path d="M 85 55 Q 90 65 88 75" stroke="#3e2016" stroke-width="4" fill="none" opacity="0.6">
-                        <animate attributeName="opacity" values="0.3;0.7;0.3" dur="1.5s" repeatCount="indefinite"/>
-                    </path>
-                    <circle cx="88" cy="78" r="6" fill="#3e2016" opacity="0.5">
-                        <animate attributeName="r" values="4;7;4" dur="1.5s" repeatCount="indefinite"/>
-                    </circle>
-                </svg>
+            <div class="choices">
+                <div class="choice-btn" onclick="goToScene('event-2a')">Ask how they know your name</div>
+                <div class="choice-btn" onclick="goToScene('event-2b')">Order "the usual"</div>
+                <div class="choice-btn" onclick="goToScene('event-2c')">Order something random</div>
             </div>
         </div>
 
-        <!-- Ending A: Healing - warm drink, memory returns -->
-        <div id="ending-a" class="scene">
-            <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
-                <!-- Warm golden background with light rays -->
-                <defs>
-                    <radialGradient id="warmGlow" cx="50%" cy="40%">
-                        <stop offset="0%" style="stop-color:#fff9c4;stop-opacity:1" />
-                        <stop offset="50%" style="stop-color:#ffe082;stop-opacity:0.8" />
-                        <stop offset="100%" style="stop-color:#ffb74d;stop-opacity:0.6" />
-                    </radialGradient>
-                    <filter id="softGlow">
-                        <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-                        <feMerge>
-                            <feMergeNode in="coloredBlur"/>
-                            <feMergeNode in="SourceGraphic"/>
-                        </feMerge>
-                    </filter>
-                </defs>
+        <!-- EVENT 2A: The Usual Arrives -->
+        <div id="scene-event-2a" class="scene warm-cafe">
+            <svg width="100%" height="100%" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+                <!-- Café background -->
+                <rect x="0" y="0" width="1200" height="400" fill="#4a3428"/>
 
-                <rect width="1200" height="800" fill="url(#warmGlow)"/>
+                <!-- Barista closer, looking slightly sad -->
+                <ellipse cx="600" cy="200" rx="50" ry="55" fill="#5d4037"/>
+                <rect x="560" y="250" width="80" height="120" rx="15" fill="#3e2723"/>
+                <circle cx="585" cy="215" r="5" fill="#fff" opacity="0.6"/>
+                <circle cx="615" cy="215" r="5" fill="#fff" opacity="0.6"/>
+                <path d="M 585 235 Q 600 230 615 235" stroke="#8d6e63" stroke-width="2" fill="none"/>
 
-                <!-- Large steaming cup in center -->
-                <g transform="translate(600, 400)">
-                    <ellipse cx="0" cy="-80" rx="120" ry="35" fill="#3e2723"/>
-                    <path d="M -120 -80 Q -120 60 0 70 Q 120 60 120 -80" fill="#4e342e"/>
-                    <ellipse cx="0" cy="-80" rx="115" ry="32" fill="#6f4e37"/>
+                <!-- Counter -->
+                <rect x="0" y="450" width="1200" height="350" fill="#6d4c41"/>
+                <rect x="0" y="450" width="1200" height="20" fill="#5d4037"/>
 
-                    <!-- Glowing coffee inside -->
-                    <ellipse cx="0" cy="-75" rx="105" ry="28" fill="#ff6f00" opacity="0.8" filter="url(#softGlow)"/>
-                    <ellipse cx="0" cy="-75" rx="85" ry="22" fill="#ffa726" opacity="0.9">
-                        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" repeatCount="indefinite"/>
+                <!-- A warm cup appeared on counter -->
+                <g transform="translate(600, 500)">
+                    <ellipse cx="0" cy="0" rx="70" ry="22" fill="#3e2723"/>
+                    <path d="M -70 0 Q -70 70 0 75 Q 70 70 70 0" fill="#4e342e"/>
+                    <ellipse cx="0" cy="0" rx="65" ry="20" fill="#6f4e37"/>
+                    <ellipse cx="0" cy="3" rx="60" ry="17" fill="#ff8c42" opacity="0.7">
+                        <animate attributeName="opacity" values="0.5;0.9;0.5" dur="3s" repeatCount="indefinite"/>
                     </ellipse>
 
-                    <!-- Magical steam with memories -->
-                    <g class="memory-steam">
-                        <!-- Heart shape in steam -->
-                        <path d="M 0 -120 Q -20 -140 -35 -130 Q -45 -120 -35 -105 L 0 -80 L 35 -105 Q 45 -120 35 -130 Q 20 -140 0 -120"
-                              fill="#ff69b4" opacity="0">
-                            <animate attributeName="opacity" values="0;0.7;0" dur="4s" begin="0s" repeatCount="indefinite"/>
-                            <animateTransform attributeName="transform" type="translate"
-                                values="0,0; 10,-80; 0,-160" dur="4s" repeatCount="indefinite"/>
-                        </path>
+                    <!-- Warm glow -->
+                    <circle cx="0" cy="0" r="80" fill="rgba(255, 140, 66, 0.3)">
+                        <animate attributeName="r" values="70;90;70" dur="2s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.2;0.4;0.2" dur="2s" repeatCount="indefinite"/>
+                    </circle>
+                </g>
 
-                        <!-- Star memory -->
-                        <polygon points="0,-140 5,-155 0,-170 -5,-155" fill="#ffd700" opacity="0">
-                            <animate attributeName="opacity" values="0;0.8;0" dur="5s" begin="1s" repeatCount="indefinite"/>
-                            <animateTransform attributeName="transform" type="translate"
-                                values="0,0; -15,-100; -30,-200" dur="5s" begin="1s" repeatCount="indefinite"/>
-                        </polygon>
+                <!-- Small bell on counter -->
+                <g transform="translate(400, 480)">
+                    <path d="M 0 0 L -15 20 L 15 20 Z" fill="#ffd700"/>
+                    <circle cx="0" cy="23" r="3" fill="#d4af37"/>
+                    <circle cx="0" cy="-5" r="2" fill="#fff" opacity="0.8">
+                        <animate attributeName="opacity" values="0;1;0" dur="2s" begin="1s"/>
+                    </circle>
+                </g>
+            </svg>
 
-                        <!-- Circular memories floating up -->
-                        <circle cx="-30" cy="-150" r="8" fill="#81c784" opacity="0">
-                            <animate attributeName="opacity" values="0;0.6;0" dur="6s" begin="2s" repeatCount="indefinite"/>
-                            <animate attributeName="cy" values="-150;-200;-300" dur="6s" begin="2s" repeatCount="indefinite"/>
+            <div class="context-text">
+                <p style="font-style: italic;">"You always ask that."</p>
+                <p style="margin-top: 10px; font-size: 16px;">A tiny bell rings by itself.</p>
+            </div>
+
+            <div class="choices">
+                <div class="choice-btn" onclick="goToScene('event-3')">Ask again, seriously</div>
+                <div class="choice-btn" onclick="goToScene('event-2b')">Don't drink it — just hold it</div>
+                <div class="choice-btn" onclick="goToScene('event-2b')">Take a sip</div>
+            </div>
+        </div>
+
+        <!-- EVENT 2B: Memory in a Cup -->
+        <div id="scene-event-2b" class="scene golden-memory">
+            <svg width="100%" height="100%" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+                <!-- Warm golden atmosphere -->
+                <circle cx="600" cy="400" r="400" fill="rgba(255, 215, 0, 0.2)"/>
+
+                <!-- Large cup in center -->
+                <g transform="translate(600, 400)">
+                    <ellipse cx="0" cy="-50" rx="90" ry="28" fill="#3e2723"/>
+                    <path d="M -90 -50 Q -90 80 0 90 Q 90 80 90 -50" fill="#4e342e"/>
+                    <ellipse cx="0" cy="-50" rx="85" ry="25" fill="#6f4e37"/>
+
+                    <!-- Glowing coffee -->
+                    <ellipse cx="0" cy="-45" rx="75" ry="20" fill="#ff6f00" opacity="0.8">
+                        <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
+                    </ellipse>
+
+                    <!-- Memory wisps rising -->
+                    <g opacity="0.7">
+                        <!-- Childhood toy -->
+                        <rect x="-40" y="-120" width="30" height="30" rx="5" fill="#ff69b4" opacity="0">
+                            <animate attributeName="opacity" values="0;0.8;0" dur="5s" repeatCount="indefinite"/>
+                            <animate attributeName="y" values="-80;-200" dur="5s" repeatCount="indefinite"/>
+                        </rect>
+
+                        <!-- Friend silhouette -->
+                        <circle cx="30" cy="-150" r="15" fill="#81c784" opacity="0">
+                            <animate attributeName="opacity" values="0;0.7;0" dur="6s" begin="1s" repeatCount="indefinite"/>
+                            <animate attributeName="cy" values="-100;-250" dur="6s" begin="1s" repeatCount="indefinite"/>
                         </circle>
 
-                        <circle cx="25" cy="-130" r="10" fill="#64b5f6" opacity="0">
-                            <animate attributeName="opacity" values="0;0.6;0" dur="5.5s" begin="0.5s" repeatCount="indefinite"/>
-                            <animate attributeName="cy" values="-130;-180;-280" dur="5.5s" begin="0.5s" repeatCount="indefinite"/>
-                        </circle>
-
-                        <!-- Photo frame memory -->
+                        <!-- Home/house shape -->
                         <g opacity="0">
-                            <rect x="-25" y="-200" width="50" height="60" fill="#fff" stroke="#d4af37" stroke-width="3"/>
-                            <rect x="-20" y="-195" width="40" height="50" fill="#ffecb3"/>
-                            <circle cx="0" cy="-170" r="12" fill="#ffb74d"/>
-                            <path d="M -10 -155 L 10 -155" stroke="#ff6f00" stroke-width="3"/>
-                            <animate attributeName="opacity" values="0;0.8;0" dur="7s" begin="1.5s" repeatCount="indefinite"/>
-                            <animateTransform attributeName="transform" type="translate"
-                                values="0,0; 20,-120; 40,-250" dur="7s" begin="1.5s" repeatCount="indefinite"/>
+                            <rect x="-60" y="-140" width="40" height="35" fill="#8d6e63"/>
+                            <polygon points="-40,-140 -20,-160 -60,-160" fill="#5d4037"/>
+                            <animate attributeName="opacity" values="0;0.6;0" dur="7s" begin="2s" repeatCount="indefinite"/>
+                            <animateTransform attributeName="transform" type="translate" values="0,0; 0,-150" dur="7s" begin="2s" repeatCount="indefinite"/>
                         </g>
                     </g>
-
-                    <!-- Saucer with glow -->
-                    <ellipse cx="0" cy="75" rx="150" ry="20" fill="#5d4037" opacity="0.8"/>
-                    <ellipse cx="0" cy="73" rx="145" ry="18" fill="#ff6f00" opacity="0.2"/>
                 </g>
 
-                <!-- Gentle light particles floating around -->
-                <circle cx="200" cy="200" r="5" fill="#ffd700" opacity="0">
+                <!-- Soft light particles -->
+                <circle cx="300" cy="200" r="5" fill="#ffd700" opacity="0">
                     <animate attributeName="opacity" values="0;0.8;0" dur="3s" repeatCount="indefinite"/>
-                    <animate attributeName="cy" values="200;150" dur="3s" repeatCount="indefinite"/>
                 </circle>
-                <circle cx="1000" cy="600" r="6" fill="#ffb74d" opacity="0">
+                <circle cx="900" cy="500" r="6" fill="#ffb74d" opacity="0">
                     <animate attributeName="opacity" values="0;0.7;0" dur="4s" begin="1s" repeatCount="indefinite"/>
-                    <animate attributeName="cy" values="600;550" dur="4s" begin="1s" repeatCount="indefinite"/>
-                </circle>
-                <circle cx="300" cy="500" r="4" fill="#ffe082" opacity="0">
-                    <animate attributeName="opacity" values="0;0.9;0" dur="3.5s" begin="0.5s" repeatCount="indefinite"/>
-                    <animate attributeName="cy" values="500;450" dur="3.5s" begin="0.5s" repeatCount="indefinite"/>
-                </circle>
-
-                <!-- Soft emanating circles of warmth -->
-                <circle cx="600" cy="400" r="150" fill="none" stroke="#ff6f00" stroke-width="2" opacity="0">
-                    <animate attributeName="r" values="100;300" dur="4s" repeatCount="indefinite"/>
-                    <animate attributeName="opacity" values="0.5;0" dur="4s" repeatCount="indefinite"/>
-                </circle>
-                <circle cx="600" cy="400" r="150" fill="none" stroke="#ffd700" stroke-width="2" opacity="0">
-                    <animate attributeName="r" values="100;300" dur="4s" begin="2s" repeatCount="indefinite"/>
-                    <animate attributeName="opacity" values="0.5;0" dur="4s" begin="2s" repeatCount="indefinite"/>
                 </circle>
             </svg>
+
+            <div class="context-text">
+                <p>The drink tastes like a memory you'd lost.</p>
+                <p style="margin-top: 10px; font-size: 16px;">A friend you haven't spoken to. A smell from childhood.</p>
+            </div>
+
+            <div class="choices">
+                <div class="choice-btn" onclick="goToScene('event-3')">Ask what the café wants</div>
+                <div class="choice-btn" onclick="goToScene('event-2c')">Look around the café</div>
+                <div class="choice-btn" onclick="goToScene('event-3')">Get up to leave</div>
+            </div>
         </div>
 
-        <!-- Ending B: Fresh Start - notebook with blank pages -->
-        <div id="ending-b" class="scene">
-            <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="freshGreen" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#e8f5e9;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#a5d6a7;stop-opacity:1" />
-                    </linearGradient>
-                    <filter id="paperTexture">
-                        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" result="noise"/>
-                        <feDiffuseLighting in="noise" lighting-color="#ffffff" surfaceScale="1">
-                            <feDistantLight azimuth="45" elevation="60"/>
-                        </feDiffuseLighting>
-                    </filter>
-                </defs>
+        <!-- EVENT 2C: The Message -->
+        <div id="scene-event-2c" class="scene mysterious-dim">
+            <svg width="100%" height="100%" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+                <!-- Dimmer atmosphere -->
+                <rect x="0" y="0" width="1200" height="800" fill="#37474f"/>
 
-                <rect width="1200" height="800" fill="url(#freshGreen)"/>
-
-                <!-- Wooden table surface -->
-                <rect y="600" width="1200" height="200" fill="#8d6e63" opacity="0.3"/>
-
-                <!-- Open notebook -->
+                <!-- Looking down into empty cup -->
                 <g transform="translate(600, 400)">
-                    <!-- Shadow -->
-                    <ellipse cx="0" cy="180" rx="280" ry="40" fill="#000" opacity="0.15"/>
+                    <!-- Cup rim (top-down view) -->
+                    <ellipse cx="0" cy="0" rx="180" ry="60" fill="#4e342e" opacity="0.9"/>
+                    <ellipse cx="0" cy="0" rx="165" ry="50" fill="#6f4e37"/>
+                    <ellipse cx="0" cy="0" rx="150" ry="42" fill="#f5f5dc" opacity="0.3"/>
 
-                    <!-- Notebook cover (right side) -->
-                    <rect x="10" y="-200" width="280" height="380" rx="5" fill="#2e7d32" opacity="0.9"/>
+                    <!-- Message at bottom of cup -->
+                    <text x="0" y="-5" font-size="28" fill="#3e2723" text-anchor="middle" font-family="serif" font-style="italic">
+                        You forgot something.
+                    </text>
 
-                    <!-- Left page -->
-                    <rect x="-290" y="-195" width="295" height="370" fill="#fffde7" opacity="0.95"/>
-
-                    <!-- Right page -->
-                    <rect x="15" y="-195" width="270" height="370" fill="#fffef7" opacity="0.98"/>
-
-                    <!-- Page lines -->
-                    <line x1="-270" y1="-150" x2="-20" y2="-150" stroke="#e0e0e0" stroke-width="1"/>
-                    <line x1="-270" y1="-100" x2="-20" y2="-100" stroke="#e0e0e0" stroke-width="1"/>
-                    <line x1="-270" y1="-50" x2="-20" y2="-50" stroke="#e0e0e0" stroke-width="1"/>
-                    <line x1="-270" y1="0" x2="-20" y2="0" stroke="#e0e0e0" stroke-width="1"/>
-                    <line x1="-270" y1="50" x2="-20" y2="50" stroke="#e0e0e0" stroke-width="1"/>
-                    <line x1="-270" y1="100" x2="-20" y2="100" stroke="#e0e0e0" stroke-width="1"/>
-
-                    <line x1="35" y1="-150" x2="265" y2="-150" stroke="#e0e0e0" stroke-width="1"/>
-                    <line x1="35" y1="-100" x2="265" y2="-100" stroke="#e0e0e0" stroke-width="1"/>
-                    <line x1="35" y1="-50" x2="265" y2="-50" stroke="#e0e0e0" stroke-width="1"/>
-                    <line x1="35" y1="0" x2="265" y2="0" stroke="#e0e0e0" stroke-width="1"/>
-                    <line x1="35" y1="50" x2="265" y2="50" stroke="#e0e0e0" stroke-width="1"/>
-                    <line x1="35" y1="100" x2="265" y2="100" stroke="#e0e0e0" stroke-width="1"/>
-
-                    <!-- Spine -->
-                    <rect x="-5" y="-200" width="20" height="380" fill="#1b5e20"/>
-
-                    <!-- Pen on right page - ready to write -->
-                    <g transform="translate(150, -50) rotate(-25)">
-                        <rect x="-5" y="-80" width="10" height="160" rx="5" fill="#1976d2"/>
-                        <polygon points="-5,-80 5,-80 0,-95" fill="#0d47a1"/>
-                        <rect x="-6" y="60" width="12" height="20" fill="#ffd54f"/>
-                        <circle cx="0" cy="75" r="8" fill="#ff6f00" opacity="0.7"/>
-                    </g>
-
-                    <!-- Gentle sparkles appearing on blank pages (possibility) -->
-                    <circle cx="-150" cy="-80" r="3" fill="#81c784" opacity="0">
-                        <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+                    <!-- Mysterious glow around text -->
+                    <circle cx="0" cy="0" r="100" fill="none" stroke="#ffd700" stroke-width="2" opacity="0.3">
+                        <animate attributeName="r" values="90;110;90" dur="3s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.2;0.5;0.2" dur="3s" repeatCount="indefinite"/>
                     </circle>
-                    <circle cx="120" cy="20" r="4" fill="#66bb6a" opacity="0">
-                        <animate attributeName="opacity" values="0;1;0" dur="2.5s" begin="0.5s" repeatCount="indefinite"/>
-                    </circle>
-                    <circle cx="-200" cy="60" r="3" fill="#4caf50" opacity="0">
-                        <animate attributeName="opacity" values="0;1;0" dur="2.2s" begin="1s" repeatCount="indefinite"/>
-                    </circle>
-                    <circle cx="200" cy="-120" r="3" fill="#81c784" opacity="0">
-                        <animate attributeName="opacity" values="0;1;0" dur="2.8s" begin="0.3s" repeatCount="indefinite"/>
-                    </circle>
-
-                    <!-- Coffee cup beside notebook (fresh start needs energy) -->
-                    <g transform="translate(350, 0)">
-                        <ellipse cx="0" cy="80" rx="45" ry="10" fill="#8d6e63" opacity="0.4"/>
-                        <ellipse cx="0" cy="20" rx="40" ry="12" fill="#3e2723"/>
-                        <path d="M -40 20 Q -40 70 0 75 Q 40 70 40 20" fill="#4e342e"/>
-                        <ellipse cx="0" cy="20" rx="37" ry="10" fill="#6f4e37"/>
-                        <ellipse cx="0" cy="22" rx="33" ry="8" fill="#4caf50" opacity="0.6"/>
-
-                        <!-- Steam -->
-                        <path d="M -10 10 Q -15 -10 -10 -30" stroke="#fff" stroke-width="2" fill="none" opacity="0.3">
-                            <animate attributeName="opacity" values="0.3;0.1;0" dur="2s" repeatCount="indefinite"/>
-                        </path>
-                    </g>
                 </g>
 
-                <!-- Light beams suggesting new day/fresh start -->
-                <path d="M 0 0 L 100 800" stroke="#fff" stroke-width="40" opacity="0.1"/>
-                <path d="M 200 0 L 350 800" stroke="#fff" stroke-width="60" opacity="0.15"/>
-                <path d="M 900 0 L 1050 800" stroke="#fff" stroke-width="50" opacity="0.12"/>
+                <!-- Polaroid photos floating in background (if chose "look around") -->
+                <g opacity="0.4">
+                    <rect x="150" y="150" width="100" height="120" fill="#fff" transform="rotate(-15 200 210)"/>
+                    <rect x="160" y="160" width="80" height="80" fill="#d3d3d3" transform="rotate(-15 200 210)"/>
 
-                <!-- Floating leaves (growth, renewal) -->
-                <g opacity="0">
-                    <ellipse cx="150" cy="200" rx="20" ry="35" fill="#2e7d32" transform="rotate(45 150 200)"/>
-                    <path d="M 150 180 Q 150 200 150 220" stroke="#1b5e20" stroke-width="2"/>
-                    <animate attributeName="opacity" values="0;0.8;0.8;0" dur="8s" repeatCount="indefinite"/>
-                    <animateTransform attributeName="transform" type="translate"
-                        values="0,0; 50,100; 100,600" dur="8s" repeatCount="indefinite"/>
-                    <animateTransform attributeName="transform" type="rotate" additive="sum"
-                        values="0 150 200; 180 150 200; 360 150 200" dur="8s" repeatCount="indefinite"/>
-                </g>
-
-                <g opacity="0">
-                    <ellipse cx="1000" cy="150" rx="20" ry="35" fill="#43a047" transform="rotate(-30 1000 150)"/>
-                    <path d="M 1000 130 Q 1000 150 1000 170" stroke="#2e7d32" stroke-width="2"/>
-                    <animate attributeName="opacity" values="0;0.7;0.7;0" dur="10s" begin="2s" repeatCount="indefinite"/>
-                    <animateTransform attributeName="transform" type="translate"
-                        values="0,0; -80,150; -150,650" dur="10s" begin="2s" repeatCount="indefinite"/>
-                    <animateTransform attributeName="transform" type="rotate" additive="sum"
-                        values="0 1000 150; -180 1000 150; -360 1000 150" dur="10s" begin="2s" repeatCount="indefinite"/>
+                    <rect x="950" y="200" width="100" height="120" fill="#fff" transform="rotate(20 1000 260)"/>
+                    <rect x="960" y="210" width="80" height="80" fill="#d3d3d3" transform="rotate(20 1000 260)"/>
                 </g>
             </svg>
+
+            <div class="context-text">
+                <p>At the bottom of the cup, words appear:</p>
+                <h2 style="color: #ffd700; margin-top: 15px;">"You forgot something."</h2>
+            </div>
+
+            <div class="choices">
+                <div class="choice-btn" onclick="goToScene('event-3')">Ask the café what you forgot</div>
+                <div class="choice-btn" onclick="goToScene('event-3')">Go behind the counter</div>
+                <div class="choice-btn" onclick="goToScene('event-3')">Dump the drink out</div>
+            </div>
         </div>
 
-        <!-- Ending C: Release - cup refills, café fades, freedom -->
-        <div id="ending-c" class="scene">
-            <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+        <!-- EVENT 3: The Notebook -->
+        <div id="scene-event-3" class="scene warm-cafe">
+            <svg width="100%" height="100%" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+                <!-- Counter -->
+                <rect x="0" y="400" width="1200" height="400" fill="#6d4c41"/>
+                <rect x="0" y="400" width="1200" height="20" fill="#5d4037"/>
+
+                <!-- Barista in background -->
+                <ellipse cx="600" cy="250" rx="45" ry="50" fill="#5d4037" opacity="0.7"/>
+                <rect x="565" y="295" width="70" height="100" rx="12" fill="#3e2723" opacity="0.7"/>
+
+                <!-- Worn leather notebook on counter -->
+                <g transform="translate(600, 550)">
+                    <!-- Shadow -->
+                    <ellipse cx="0" cy="50" rx="120" ry="15" fill="#000" opacity="0.3"/>
+
+                    <!-- Notebook -->
+                    <rect x="-100" y="-60" width="200" height="150" rx="5" fill="#5d4037"/>
+                    <rect x="-95" y="-55" width="190" height="140" rx="3" fill="#6d4c41"/>
+
+                    <!-- Worn edges -->
+                    <path d="M -95 -55 L -85 -50 L -85 85 L -95 85" fill="#4e342e"/>
+                    <path d="M 95 -55 L 85 -50 L 85 85 L 95 85" fill="#4e342e"/>
+
+                    <!-- Strap -->
+                    <rect x="-10" y="-65" width="20" height="160" fill="#3e2723" opacity="0.6"/>
+
+                    <!-- Mysterious glow -->
+                    <circle cx="0" cy="15" r="80" fill="rgba(255, 215, 0, 0.2)">
+                        <animate attributeName="opacity" values="0.1;0.3;0.1" dur="4s" repeatCount="indefinite"/>
+                    </circle>
+                </g>
+
+                <!-- Warm lighting -->
+                <circle cx="600" cy="200" r="250" fill="rgba(255, 183, 77, 0.2)" opacity="0.5">
+                    <animate attributeName="opacity" values="0.3;0.6;0.3" dur="5s" repeatCount="indefinite"/>
+                </circle>
+            </svg>
+
+            <div class="context-text">
+                <p style="font-style: italic;">"It's yours," the barista says.</p>
+                <p style="margin-top: 10px;">It feels familiar. Heavy with something unsaid.</p>
+            </div>
+
+            <div class="choices">
+                <div class="choice-btn" onclick="goToScene('ending-a')">Read it</div>
+                <div class="choice-btn" onclick="goToScene('ending-b')">Burn it</div>
+                <div class="choice-btn" onclick="goToScene('ending-c')">Take it and leave</div>
+                <div class="choice-btn" onclick="goToScene('ending-d')">Leave it untouched</div>
+            </div>
+        </div>
+
+        <!-- ENDING A: Healing -->
+        <div id="scene-ending-a" class="scene golden-memory">
+            <svg width="100%" height="100%" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style="stop-color:#64b5f6;stop-opacity:1" />
-                        <stop offset="50%" style="stop-color:#90caf9;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#bbdefb;stop-opacity:1" />
-                    </linearGradient>
-                    <radialGradient id="lightBurst" cx="50%" cy="50%">
-                        <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#e3f2fd;stop-opacity:0" />
+                    <radialGradient id="healingGlow">
+                        <stop offset="0%" stop-color="#fff9c4" stop-opacity="1"/>
+                        <stop offset="100%" stop-color="#ffb74d" stop-opacity="0.8"/>
                     </radialGradient>
                 </defs>
 
-                <!-- Expanding sky (freedom) -->
-                <rect width="1200" height="800" fill="url(#skyGradient)">
-                    <animate attributeName="opacity" values="0.5;1" dur="3s"/>
-                </rect>
+                <rect width="1200" height="800" fill="url(#healingGlow)"/>
 
-                <!-- Light burst from center -->
-                <circle cx="600" cy="400" r="100" fill="url(#lightBurst)" opacity="0">
-                    <animate attributeName="r" values="50;800" dur="4s"/>
-                    <animate attributeName="opacity" values="0.8;0" dur="4s"/>
-                </circle>
+                <!-- Open notebook with visible pages -->
+                <g transform="translate(600, 400)">
+                    <rect x="-250" y="-180" width="230" height="330" fill="#fffde7"/>
+                    <rect x="20" y="-180" width="230" height="330" fill="#fffef7"/>
 
-                <!-- Dissolving café elements (fading away) -->
-                <g id="dissolving-cafe" opacity="1">
-                    <rect x="400" y="300" width="400" height="300" rx="20" fill="#4e342e" opacity="0.6"/>
-                    <rect x="500" y="350" width="200" height="150" rx="10" fill="#87ceeb" opacity="0.3"/>
-                    <animate attributeName="opacity" values="1;0.5;0" dur="5s"/>
+                    <!-- Written memories (squiggles representing text) -->
+                    <line x1="-230" y1="-140" x2="-70" y2="-140" stroke="#3e2723" stroke-width="2" opacity="0.6"/>
+                    <line x1="-230" y1="-110" x2="-50" y2="-110" stroke="#3e2723" stroke-width="2" opacity="0.6"/>
+                    <line x1="-230" y1="-80" x2="-90" y2="-80" stroke="#3e2723" stroke-width="2" opacity="0.6"/>
+
+                    <line x1="40" y1="-140" x2="200" y2="-140" stroke="#3e2723" stroke-width="2" opacity="0.6"/>
+                    <line x1="40" y1="-110" x2="220" y2="-110" stroke="#3e2723" stroke-width="2" opacity="0.6"/>
+
+                    <!-- Happy memories illustrated -->
+                    <circle cx="-150" cy="0" r="40" fill="#81c784" opacity="0.6"/>
+                    <path d="M -165 -5 Q -150 5 -135 -5" stroke="#2e7d32" stroke-width="3" fill="none"/>
+
+                    <rect x="80" y="-30" width="60" height="60" rx="5" fill="#ff69b4" opacity="0.5"/>
+
+                    <!-- Light emanating -->
+                    <circle cx="0" cy="0" r="200" fill="none" stroke="#ffd700" stroke-width="3" opacity="0">
+                        <animate attributeName="r" values="150;350" dur="4s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.6;0" dur="4s" repeatCount="indefinite"/>
+                    </circle>
                 </g>
 
-                <!-- Center: Refilling cup that then empties into the void -->
+                <!-- Floating upward (lighter feeling) -->
+                <circle cx="400" cy="600" r="8" fill="#ffd700" opacity="0">
+                    <animate attributeName="opacity" values="0;0.8;0" dur="4s" repeatCount="indefinite"/>
+                    <animate attributeName="cy" values="600;200" dur="4s" repeatCount="indefinite"/>
+                </circle>
+            </svg>
+
+            <div class="context-text">
+                <h2>Healing</h2>
+                <p style="margin-top: 15px;">Pages filled with memories you forgot.</p>
+                <p>Good ones, painful ones, ones you avoided.</p>
+                <p style="margin-top: 15px; color: #81c784;">You leave the café lighter, able to move forward.</p>
+            </div>
+        </div>
+
+        <!-- ENDING B: Release -->
+        <div id="scene-ending-b" class="scene peaceful-release">
+            <svg width="100%" height="100%" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#64b5f6"/>
+                        <stop offset="100%" stop-color="#e3f2fd"/>
+                    </linearGradient>
+                </defs>
+
+                <rect width="1200" height="800" fill="url(#skyGrad)"/>
+
+                <!-- Sunlight beams -->
+                <path d="M 600 0 L 500 800" stroke="#fff" stroke-width="60" opacity="0.3"/>
+                <path d="M 600 0 L 700 800" stroke="#fff" stroke-width="60" opacity="0.3"/>
+
+                <!-- Burning notebook turning to ash -->
                 <g transform="translate(600, 400)">
-                    <!-- Cup -->
-                    <ellipse cx="0" cy="-30" rx="60" ry="18" fill="#3e2723" opacity="0.7">
-                        <animate attributeName="opacity" values="0.7;0.4;0" dur="6s" begin="2s"/>
-                    </ellipse>
-                    <path d="M -60 -30 Q -60 40 0 45 Q 60 40 60 -30" fill="#4e342e" opacity="0.7">
-                        <animate attributeName="opacity" values="0.7;0.4;0" dur="6s" begin="2s"/>
+                    <!-- Flames -->
+                    <path d="M -50 0 Q -60 -40 -50 -80 Q -40 -100 -30 -80 Q -20 -60 -30 -20 Z" fill="#ff6f00" opacity="0.7">
+                        <animate attributeName="opacity" values="0.5;0.9;0.5" dur="1.5s" repeatCount="indefinite"/>
+                    </path>
+                    <path d="M 0 0 Q -10 -50 0 -90 Q 10 -110 20 -90 Q 30 -70 20 -30 Z" fill="#ff8f00" opacity="0.8">
+                        <animate attributeName="opacity" values="0.6;1;0.6" dur="1.3s" repeatCount="indefinite"/>
+                    </path>
+                    <path d="M 40 0 Q 30 -45 40 -85 Q 50 -100 60 -85 Q 70 -65 60 -25 Z" fill="#ffa726" opacity="0.7">
+                        <animate attributeName="opacity" values="0.5;0.9;0.5" dur="1.7s" repeatCount="indefinite"/>
                     </path>
 
-                    <!-- Coffee level - fills up then drains -->
-                    <ellipse cx="0" cy="-25" rx="55" ry="15" fill="#3e2016" opacity="0">
-                        <animate attributeName="opacity" values="0;0.8;0.8;0" dur="8s"/>
-                    </ellipse>
-                    <ellipse cx="0" cy="-25" rx="55" ry="15" fill="#3e2016" opacity="0">
-                        <animate attributeName="cy" values="20;-25" dur="2s"/>
-                        <animate attributeName="opacity" values="0;0.8" dur="2s"/>
-                    </ellipse>
+                    <!-- Ash particles floating away -->
+                    <circle cx="-30" cy="-120" r="3" fill="#424242" opacity="0">
+                        <animate attributeName="opacity" values="0;0.6;0" dur="5s" repeatCount="indefinite"/>
+                        <animate attributeName="cy" values="-120;-300" dur="5s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="20" cy="-100" r="4" fill="#616161" opacity="0">
+                        <animate attributeName="opacity" values="0;0.5;0" dur="6s" begin="1s" repeatCount="indefinite"/>
+                        <animate attributeName="cy" values="-100;-320" dur="6s" begin="1s" repeatCount="indefinite"/>
+                    </circle>
+                </g>
 
-                    <!-- Coffee pouring out and dissolving -->
-                    <g opacity="0">
-                        <path d="M 0 45 Q 5 80 0 120" stroke="#3e2016" stroke-width="8" fill="none"/>
-                        <circle cx="0" cy="130" r="15" fill="#3e2016"/>
-                        <animate attributeName="opacity" values="0;0.7;0" dur="3s" begin="3s"/>
+                <!-- Café dissolving in distance -->
+                <g opacity="0.2">
+                    <rect x="800" y="500" width="200" height="200" rx="10" fill="#4e342e"/>
+                    <rect x="850" y="550" width="100" height="80" fill="#87ceeb" opacity="0.3"/>
+                </g>
+
+                <!-- Birds flying -->
+                <g opacity="0.7">
+                    <path d="M 300 200 Q 285 192 280 195 Q 285 198 300 200 Q 315 198 320 195 Q 315 192 300 200" fill="#424242">
+                        <animateTransform attributeName="transform" type="translate" values="0,0; 400,-150" dur="8s" repeatCount="indefinite"/>
+                    </path>
+                </g>
+            </svg>
+
+            <div class="context-text">
+                <h2>Release</h2>
+                <p style="margin-top: 15px;">The café dissolves into warm sunlight.</p>
+                <p>You're outside on a quiet street, notebook turned to ash.</p>
+                <p style="margin-top: 15px; color: #64b5f6;">You feel free.</p>
+            </div>
+        </div>
+
+        <!-- ENDING C: Fresh Start -->
+        <div id="scene-ending-c" class="scene fresh-green">
+            <svg width="100%" height="100%" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="freshGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#e8f5e9"/>
+                        <stop offset="100%" stop-color="#a5d6a7"/>
+                    </linearGradient>
+                </defs>
+
+                <rect width="1200" height="800" fill="url(#freshGrad)"/>
+
+                <!-- Open blank notebook -->
+                <g transform="translate(600, 400)">
+                    <rect x="-250" y="-180" width="230" height="330" fill="#fffde7"/>
+                    <rect x="20" y="-180" width="230" height="330" fill="#fffef7"/>
+
+                    <!-- Faint lines but BLANK -->
+                    <line x1="-230" y1="-140" x2="-40" y2="-140" stroke="#e0e0e0" stroke-width="1"/>
+                    <line x1="-230" y1="-100" x2="-40" y2="-100" stroke="#e0e0e0" stroke-width="1"/>
+                    <line x1="-230" y1="-60" x2="-40" y2="-60" stroke="#e0e0e0" stroke-width="1"/>
+
+                    <line x1="40" y1="-140" x2="230" y2="-140" stroke="#e0e0e0" stroke-width="1"/>
+                    <line x1="40" y1="-100" x2="230" y2="-100" stroke="#e0e0e0" stroke-width="1"/>
+                    <line x1="40" y1="-60" x2="230" y2="-60" stroke="#e0e0e0" stroke-width="1"/>
+
+                    <!-- Pen ready -->
+                    <g transform="translate(100, -50) rotate(-20)">
+                        <rect x="-4" y="-60" width="8" height="120" rx="4" fill="#1976d2"/>
+                        <polygon points="-4,-60 4,-60 0,-70" fill="#0d47a1"/>
+                        <circle cx="0" cy="55" r="6" fill="#ffd54f"/>
                     </g>
 
-                    <!-- Droplets falling and dispersing -->
-                    <circle cx="-10" cy="100" r="4" fill="#3e2016" opacity="0">
-                        <animate attributeName="opacity" values="0;0.6;0" dur="2s" begin="3.5s"/>
-                        <animate attributeName="cy" values="50;200" dur="2s" begin="3.5s"/>
+                    <!-- Sparkles of possibility -->
+                    <circle cx="-150" cy="-80" r="4" fill="#66bb6a" opacity="0">
+                        <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
                     </circle>
-                    <circle cx="15" cy="100" r="5" fill="#3e2016" opacity="0">
-                        <animate attributeName="opacity" values="0;0.6;0" dur="2.2s" begin="3.8s"/>
-                        <animate attributeName="cy" values="50;220" dur="2.2s" begin="3.8s"/>
+                    <circle cx="150" cy="0" r="5" fill="#4caf50" opacity="0">
+                        <animate attributeName="opacity" values="0;1;0" dur="2.5s" begin="0.5s" repeatCount="indefinite"/>
                     </circle>
                 </g>
 
-                <!-- Birds flying away (freedom) -->
-                <g id="bird1" opacity="0">
-                    <path d="M 0 0 Q -15 -8 -20 -5 Q -15 -2 0 0 Q 15 -2 20 -5 Q 15 -8 0 0" fill="#424242"/>
-                    <animate attributeName="opacity" values="0;1;1;1" dur="8s"/>
-                    <animateTransform attributeName="transform" type="translate"
-                        values="300,400; 500,200; 800,100" dur="8s"/>
-                </g>
+                <!-- Café gone - just open space -->
+                <circle cx="200" cy="150" r="60" fill="#fff" opacity="0.6"/>
+                <circle cx="1000" cy="200" r="80" fill="#fff" opacity="0.5"/>
 
-                <g id="bird2" opacity="0">
-                    <path d="M 0 0 Q -12 -6 -18 -4 Q -12 -1 0 0 Q 12 -1 18 -4 Q 12 -6 0 0" fill="#424242"/>
-                    <animate attributeName="opacity" values="0;1;1;1" dur="9s" begin="1s"/>
-                    <animateTransform attributeName="transform" type="translate"
-                        values="800,450; 650,250; 400,80" dur="9s" begin="1s"/>
-                </g>
-
-                <g id="bird3" opacity="0">
-                    <path d="M 0 0 Q -10 -5 -15 -3 Q -10 0 0 0 Q 10 0 15 -3 Q 10 -5 0 0" fill="#616161"/>
-                    <animate attributeName="opacity" values="0;1;1;1" dur="10s" begin="0.5s"/>
-                    <animateTransform attributeName="transform" type="translate"
-                        values="400,500; 600,300; 900,150" dur="10s" begin="0.5s"/>
-                </g>
-
-                <!-- Clouds drifting (peace) -->
+                <!-- New growth - leaves -->
                 <g opacity="0.7">
-                    <ellipse cx="200" cy="150" rx="60" ry="30" fill="#fff" opacity="0.8"/>
-                    <ellipse cx="230" cy="145" rx="50" ry="35" fill="#fff" opacity="0.8"/>
-                    <ellipse cx="260" cy="150" rx="55" ry="30" fill="#fff" opacity="0.8"/>
-                    <animateTransform attributeName="transform" type="translate"
-                        values="0,0; 200,0" dur="20s" repeatCount="indefinite"/>
+                    <ellipse cx="300" cy="600" rx="15" ry="25" fill="#2e7d32" transform="rotate(30 300 600)">
+                        <animateTransform attributeName="transform" type="translate" values="0,0; 50,-200" dur="6s" repeatCount="indefinite"/>
+                    </ellipse>
                 </g>
-
-                <g opacity="0.6">
-                    <ellipse cx="900" cy="250" rx="70" ry="35" fill="#fff" opacity="0.7"/>
-                    <ellipse cx="940" cy="245" rx="60" ry="40" fill="#fff" opacity="0.7"/>
-                    <ellipse cx="980" cy="250" rx="65" ry="35" fill="#fff" opacity="0.7"/>
-                    <animateTransform attributeName="transform" type="translate"
-                        values="0,0; -250,0" dur="25s" repeatCount="indefinite"/>
-                </g>
-
-                <!-- Expanding circles of freedom/release -->
-                <circle cx="600" cy="400" r="50" fill="none" stroke="#fff" stroke-width="3" opacity="0">
-                    <animate attributeName="r" values="50;400" dur="5s" begin="2s"/>
-                    <animate attributeName="opacity" values="0.7;0" dur="5s" begin="2s"/>
-                </circle>
-                <circle cx="600" cy="400" r="50" fill="none" stroke="#90caf9" stroke-width="2" opacity="0">
-                    <animate attributeName="r" values="50;500" dur="6s" begin="3s"/>
-                    <animate attributeName="opacity" values="0.6;0" dur="6s" begin="3s"/>
-                </circle>
-
-                <!-- Light particles floating upward (liberation) -->
-                <circle cx="550" cy="450" r="4" fill="#fff" opacity="0">
-                    <animate attributeName="opacity" values="0;0.8;0" dur="4s" begin="2s" repeatCount="indefinite"/>
-                    <animate attributeName="cy" values="450;250" dur="4s" begin="2s" repeatCount="indefinite"/>
-                </circle>
-                <circle cx="650" cy="480" r="5" fill="#e3f2fd" opacity="0">
-                    <animate attributeName="opacity" values="0;0.9;0" dur="5s" begin="2.5s" repeatCount="indefinite"/>
-                    <animate attributeName="cy" values="480;200" dur="5s" begin="2.5s" repeatCount="indefinite"/>
-                </circle>
-                <circle cx="600" cy="500" r="3" fill="#90caf9" opacity="0">
-                    <animate attributeName="opacity" values="0;0.7;0" dur="4.5s" begin="3s" repeatCount="indefinite"/>
-                    <animate attributeName="cy" values="500;220" dur="4.5s" begin="3s" repeatCount="indefinite"/>
-                </circle>
-
-                <!-- Horizon line suggesting open world -->
-                <line x1="0" y1="600" x2="1200" y2="600" stroke="#fff" stroke-width="2" opacity="0.3"/>
-                <path d="M 0 600 Q 300 580 600 590 Q 900 600 1200 585" stroke="#fff" stroke-width="3" opacity="0.2" fill="none"/>
             </svg>
+
+            <div class="context-text">
+                <h2>Fresh Start</h2>
+                <p style="margin-top: 15px;">The notebook is blank.</p>
+                <p>You get to write your own story now.</p>
+                <p style="margin-top: 15px; color: #4caf50;">When you look back, the café is gone.</p>
+            </div>
+        </div>
+
+        <!-- ENDING D: The Café Writes Your Story -->
+        <div id="scene-ending-d" class="scene mysterious-dim">
+            <svg width="100%" height="100%" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+                <rect width="1200" height="800" fill="#37474f"/>
+
+                <!-- Counter -->
+                <rect x="0" y="500" width="1200" height="300" fill="#4e342e"/>
+
+                <!-- Barista writing in the notebook -->
+                <g transform="translate(600, 400)">
+                    <!-- Barista's hand -->
+                    <ellipse cx="-50" cy="-50" rx="30" ry="40" fill="#5d4037"/>
+                    <ellipse cx="-50" cy="-10" rx="35" ry="15" fill="#6d4c41"/>
+
+                    <!-- Pen in hand -->
+                    <rect x="-55" y="-80" width="6" height="80" rx="3" fill="#2d2d2d" transform="rotate(-30 -52 -40)"/>
+
+                    <!-- Notebook -->
+                    <rect x="-120" y="20" width="200" height="140" rx="5" fill="#6d4c41"/>
+                    <rect x="-110" y="30" width="180" height="120" fill="#fffde7"/>
+
+                    <!-- Mysterious writing appearing -->
+                    <g opacity="0.6">
+                        <line x1="-100" y1="50" x2="0" y2="50" stroke="#2d2d2d" stroke-width="2">
+                            <animate attributeName="x2" from="-100" to="0" dur="3s" repeatCount="indefinite"/>
+                        </line>
+                        <line x1="-100" y1="70" x2="20" y2="70" stroke="#2d2d2d" stroke-width="2">
+                            <animate attributeName="x2" from="-100" to="20" dur="3.5s" begin="0.5s" repeatCount="indefinite"/>
+                        </line>
+                        <line x1="-100" y1="90" x2="-20" y2="90" stroke="#2d2d2d" stroke-width="2">
+                            <animate attributeName="x2" from="-100" to="-20" dur="2.8s" begin="1s" repeatCount="indefinite"/>
+                        </line>
+                    </g>
+                </g>
+
+                <!-- Dim mysterious glow -->
+                <circle cx="600" cy="400" r="200" fill="rgba(255, 215, 0, 0.1)">
+                    <animate attributeName="opacity" values="0.05;0.15;0.05" dur="6s" repeatCount="indefinite"/>
+                </circle>
+
+                <!-- You walking away (silhouette) -->
+                <g transform="translate(900, 550)">
+                    <ellipse cx="0" cy="-30" rx="25" ry="30" fill="#2d2d2d" opacity="0.5"/>
+                    <rect x="-20" y="0" width="40" height="60" rx="8" fill="#2d2d2d" opacity="0.5"/>
+                    <rect x="-15" y="60" width="12" height="35" fill="#2d2d2d" opacity="0.5"/>
+                    <rect x="3" y="60" width="12" height="35" fill="#2d2d2d" opacity="0.5"/>
+
+                    <animate attributeName="opacity" values="1;0" dur="8s"/>
+                    <animateTransform attributeName="transform" type="translate" values="900,550; 1100,550" dur="8s"/>
+                </g>
+            </svg>
+
+            <div class="context-text">
+                <h2>The Café Writes Your Story</h2>
+                <p style="margin-top: 15px;">The barista opens the book.</p>
+                <p>They write the final page for you.</p>
+                <p style="margin-top: 15px; color: #90a4ae;">You walk out without knowing what it says.</p>
+            </div>
         </div>
     </div>
 
     <script>
-        // Chalkboard text appears after 1 second
-        setTimeout(() => {
-            document.getElementById('chalkboard-text').style.opacity = '1';
-            document.getElementById('chalkboard-text').style.transition = 'opacity 2s ease-in';
-        }, 1000);
+        function goToScene(sceneId) {
+            // Fade out current scene
+            const currentScene = document.querySelector('.scene.active');
+            if (currentScene) {
+                currentScene.style.opacity = '0';
+                setTimeout(() => {
+                    currentScene.classList.remove('active');
+                }, 1500);
+            }
 
-        function chooseEnding(ending) {
-            const openingScene = document.getElementById('opening-scene');
-            const endingScene = document.getElementById('ending-' + ending);
-
-            // Fade out opening
-            openingScene.style.opacity = '0';
-
-            // After fade out, show ending
+            // Fade in new scene
             setTimeout(() => {
-                openingScene.classList.remove('active');
-                endingScene.classList.add('active');
-            }, 2000);
+                const newScene = document.getElementById('scene-' + sceneId);
+                if (newScene) {
+                    newScene.classList.add('active');
+                }
+            }, 1500);
         }
     </script>
 </body>
